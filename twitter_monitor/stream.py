@@ -60,9 +60,9 @@ class DynamicTwitterStream(object):
             # wait for the interval unless interrupted
             try:
                 self.polling_interrupt.wait(interval)
-            except KeyboardInterrupt:
+            except KeyboardInterrupt as e:
                 tlog("Polling canceled by user")
-                return
+                raise e
 
         tlog("Term poll ceased!")
 

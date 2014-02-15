@@ -8,6 +8,9 @@ class JsonStreamListener(StreamListener):
     This extends the Tweepy StreamListener to avoid
     closing the streaming connection when certain bad events occur.
 
+    Also skips construction of Tweepy's "Status" object since you might
+     use your own class anyway. Just leaves it a parsed JSON object.
+
     Extending this would allow more conscientious handling of rate
      limit messages or other errors, for example.
     """

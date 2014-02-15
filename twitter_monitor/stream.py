@@ -53,9 +53,9 @@ class DynamicTwitterStream(object):
                 self.update_stream()
 
             # check to see if an exception was raised in the streaming thread
-            if self.listener.stream_exception is not None:
+            if self.listener.streaming_exception is not None:
                 # propagate outward
-                raise self.listener.stream_exception
+                raise self.listener.streaming_exception
 
             # wait for the interval unless interrupted
             try:

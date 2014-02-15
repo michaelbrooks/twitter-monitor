@@ -12,6 +12,10 @@ class JsonStreamListener(StreamListener):
      limit messages or other errors, for example.
     """
 
+    def __init__(self, api=None):
+        super(JsonStreamListener, self).__init__(api)
+        self.streaming_exception = None
+
     def on_data(self, data):
         try:
             entity = json.loads(data)
@@ -101,3 +105,6 @@ class JsonStreamListener(StreamListener):
         tlog('unknown')
         return True
 
+    def on_exception(self, exception):
+        """An exception occurred in the streaming thread"""
+        self.streaming_exception = exception

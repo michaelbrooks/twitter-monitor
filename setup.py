@@ -11,7 +11,7 @@ def read(fname):
 
 setup(
     name="twitter-monitor",
-    version="0.0.1",
+    version="0.1.0",
     author="Michael Brooks",
     author_email="mjbrooks@uw.edu",
     description=("A Twitter streaming library built on tweepy "
@@ -26,7 +26,7 @@ setup(
         "Topic :: Utilities",
         "License :: OSI Approved :: MIT License",
     ],
-    requires=[
-        "tweepy (>=2.2)"
+    install_requires=[
+        "tweepy >= 2.2"
     ]
 )

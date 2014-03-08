@@ -1,7 +1,7 @@
 Twitter Monitor
 ===============
 
-[![Build Status](https://travis-ci.org/michaelbrooks/twitter-monitor.png)](https://travis-ci.org/michaelbrooks/twitter-monitor)
+[![Build Status](https://travis-ci.org/michaelbrooks/twitter-monitor.png?branch=master)](https://travis-ci.org/michaelbrooks/twitter-monitor)
 [![Coverage Status](https://coveralls.io/repos/michaelbrooks/twitter-monitor/badge.png)](https://coveralls.io/r/michaelbrooks/twitter-monitor)
 
 A Twitter streaming library built on [Tweepy](https://github.com/tweepy/tweepy) that enables dynamic tracking

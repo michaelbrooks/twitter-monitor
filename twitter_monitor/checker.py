@@ -22,7 +22,7 @@ class TermChecker(object):
 
         Should return a set of strings.
         """
-        return {'#afakehashtag'}
+        return set(['#afakehashtag'])
 
     def reset(self):
         """

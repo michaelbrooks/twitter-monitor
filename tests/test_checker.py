@@ -101,7 +101,7 @@ class TestFileTermChecker(unittest.TestCase):
 
         terms = self.checker.update_tracking_terms()
         self.assertEqual(terms,
-                         {"one", "two three", "four", "five; six'"},
+                         set(["one", "two three", "four", "five; six'"]),
                          "Read terms from the file: %s" % repr(terms))
 
     def tearDown(self):

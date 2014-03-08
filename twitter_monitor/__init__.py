@@ -1,6 +1,6 @@
 import logging
 
-logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
+logger = logging.getLogger(__name__)
 
 from checker import TermChecker
 from stream import DynamicTwitterStream

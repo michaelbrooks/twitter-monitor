@@ -5,7 +5,12 @@ python:
 
 # command to install dependencies
 install:
+  - "pip install coveralls"
   - "python setup.py -q install"
 
 # command to run tests
-script: python setup.py -q test
+script:
+  coverage run --source=twitter_monitor setup.py -q test
+
+after_success:
+  coveralls

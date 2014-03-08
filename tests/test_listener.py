@@ -13,7 +13,7 @@ class TestJsonStreamListener(TestCase):
         self.listener = JsonStreamListener()
 
     def test_on_exception(self):
-        self.assertIsNone(self.listener.streaming_exception)
+        self.assertTrue(self.listener.streaming_exception is None)
 
         try:
             raise Exception("testing")

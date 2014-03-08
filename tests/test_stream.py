@@ -163,8 +163,8 @@ class TestDynamicTwitterStream(TestCase):
         # Wait for a maximimum of 2 seconds
         thread.join(timeout=2)
 
-        self.assertGreaterEqual(self.stream.update_stream.call_count, 1, "Checked for stream/term updates")
-        self.assertGreaterEqual(self.stream.handle_exceptions.call_count, 1, "Checked for stream exceptions")
+        self.assertTrue(self.stream.update_stream.call_count >= 1, "Checked for stream/term updates")
+        self.assertTrue(self.stream.handle_exceptions.call_count >= 1, "Checked for stream exceptions")
 
 
 

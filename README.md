@@ -113,3 +113,4 @@ Questions and Contributing
 
 Feel free to post questions and problems on the issue tracker. Pull requests welcome!
 
+Use `python setup.py test` to run tests.

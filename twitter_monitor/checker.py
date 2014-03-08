@@ -1,3 +1,7 @@
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class TermChecker(object):
     """
@@ -18,7 +22,7 @@ class TermChecker(object):
 
         Should return a set of strings.
         """
-        return set(['#afakehashtag'])
+        return {'#afakehashtag'}
 
     def reset(self):
         """
@@ -38,10 +42,12 @@ class TermChecker(object):
 
         # any deleted terms?
         if self._tracking_terms_set > new_tracking_terms:
+            logging.debug("Some tracking terms removed")
             terms_changed = True
 
         # any added terms?
         elif self._tracking_terms_set < new_tracking_terms:
+            logging.debug("Some tracking terms added")
             terms_changed = True
 
         # Go ahead and store for later
@@ -72,6 +78,10 @@ class FileTermChecker(TermChecker):
             lines = input.readlines()
 
             # build a set of terms
-            new_terms = {line.strip() for line in lines}
+            new_terms = set()
+            for line in lines:
+                line = line.strip()
+                if len(line):
+                    new_terms.add(line)
 
-            return new_terms
+            return set(new_terms)

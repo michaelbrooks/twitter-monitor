@@ -1,13 +1,9 @@
-import threading
+import logging
 
-def tlog(msg):
-    """A logging mechanism that adds the current thread to the output"""
-    print "%s (t %s)" %(msg, thread_id())
-
-def thread_id():
-    """Returns the current thread id."""
-    return threading.current_thread().ident
+logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 from checker import TermChecker
 from stream import DynamicTwitterStream
 from listener import JsonStreamListener
+
+__all__ = ['DynamicTwitterStream', 'JsonStreamListener', 'TermChecker']

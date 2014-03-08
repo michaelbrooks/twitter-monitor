@@ -13,6 +13,7 @@ setup(
 
     description=("A Twitter streaming library built on tweepy "
                  "that enables dynamic term tracking"),
+    long_description=open('README.md').read(),
     license="MIT",
     keywords=["twitter", "streaming", "tweepy", "filter"],
     classifiers=[

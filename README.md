@@ -19,6 +19,8 @@ You will want to do three things:
 
 ####Installation
 
+This package is available on PyPI [here](https://pypi.python.org/pypi/twitter-monitor).
+
 ```bash
 $ pip install twitter-monitor
 ```

@@ -8,19 +8,26 @@ A Twitter streaming library built on [Tweepy](https://github.com/tweepy/tweepy) 
 of the [filtered Twitter Streaming API](https://dev.twitter.com/docs/api/1.1/post/statuses/filter).
 
 This library provides a framework that you can use to build your own dynamic Twitter term tracking system.
-You will need to do three things:
+You will want to do three things:
 
-1. Create a subclass of `TermChecker` that knows how to look for what terms to track (like in a database or a file).
-   Note that there is a `FileTermChecker` provided as an example.
-2. Create a subclass of `JsonStreamListener` that does something interesting with the tweets. This might write your tweets
-   to a file or save them in a database.
-3. Create and start an instance of the `DynamicTwitterStream` class which ties it all together.
+1. Create a subclass of `TermChecker` that knows how to look for tracked terms (e.g. in a database or a file).
+   There is a `FileTermChecker` provided as an example.
+2. Create a subclass of `JsonStreamListener` that does something interesting with the tweets. Maybe write tweets
+   to a file a database.
+3. Start an instance of the `DynamicTwitterStream` class, which ties it all together.
+
+
+####Installation
+
+```bash
+$ pip install twitter-monitor
+```
 
 
 Example Usage
 -------------
 
-Below is an example of how to set up and initialize your Twitter stream.
+Below is a simple example of how to set up and initialize a dynamic Twitter stream.
 This example uses the `FileTermChecker` and default `JsonStreamListener` implementations:
 
 ```python
@@ -42,14 +49,16 @@ access_token_secret = 'YOUR ACCESS TOKEN SECRET'
 auth = tweepy.OAuthHandler(api_key, api_secret)
 auth.set_access_token(access_token, access_token_secret)
 
+# Construct your own subclasses here instead
 listener = twitter_monitor.JsonStreamListener()
 checker = twitter_monitor.FileTermChecker(filename=terms_filename)
 
 # Start and maintain the streaming connection...
 stream = twitter_monitor.DynamicTwitterStream(auth, listener, checker)
-
 while True:
     try:
+        # Loop and keep reconnecting in case something goes wrong
+        # Note: You may annoy Twitter if you reconnect too often under some conditions.
         stream.start(poll_interval)
     except Exception as e:
         print e
@@ -60,13 +69,11 @@ while True:
 Checking for Terms
 ------------------
 
-To create a working `TermChecker`, you need to override the `update_tracking_terms(self)` method.
-This method must return a *set* of terms.
+To create a custom `TermChecker`, you need to override the `update_tracking_terms(self)` method.
+This method must return a *set* of terms. `update_tracking_terms()` will be called
+on your checker periodically to refresh the term list.
 
 The `twitter_monitor.checker.FileTermChecker` class is included as an example.
-
-`update_tracking_terms()` will be called on your checker periodically to refresh
-the term list.
 
 
 Handling Tweets

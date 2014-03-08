@@ -73,6 +73,10 @@ class FileTermChecker(TermChecker):
         self.filename = filename
 
     def update_tracking_terms(self):
+        """
+        Terms must be one-per-line.
+        Blank lines will be skipped.
+        """
         with open(self.filename) as input:
             # read all the lines
             lines = input.readlines()

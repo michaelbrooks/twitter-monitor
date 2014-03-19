@@ -84,17 +84,17 @@ class JsonStreamListener(StreamListener):
 
     def on_limit(self, track):
         """Called when a limitation notice arrvies"""
-        logger.warn('Limit received for %s', track)
+        logger.info('Limit received for %s', track)
         return True
 
     def on_status_withheld(self, status_id, user_id, countries):
         """Called when a status is withheld"""
-        logger.warn('Status %s withheld for user %s', status_id, user_id)
+        logger.info('Status %s withheld for user %s', status_id, user_id)
         return True
 
     def on_user_withheld(self, user_id, countries):
         """Called when a user is withheld"""
-        logger.warn('User %s withheld', user_id)
+        logger.info('User %s withheld', user_id)
         return True
 
     def on_disconnect(self, code, stream_name, reason):

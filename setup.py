@@ -4,7 +4,7 @@ setup(
     name="twitter-monitor",
     packages=['twitter_monitor'],
 
-    version="0.1.1",
+    version="0.2.0",
     download_url='https://github.com/michaelbrooks/twitter-monitor/archive/v0.1.1.zip',
     url="https://github.com/michaelbrooks/twitter-monitor",
 

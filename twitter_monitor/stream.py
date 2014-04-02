@@ -1,5 +1,5 @@
 import threading
-from time import sleep
+from time import sleep, time
 import logging
 
 import tweepy
@@ -45,15 +45,14 @@ class DynamicTwitterStream(object):
         logger.info("Starting polling for changes to the track list")
         while self.polling:
 
+            loop_start = time()
+
             self.update_stream()
             self.handle_exceptions()
 
-            # wait for the interval unless interrupted
-            try:
-                self.polling_interrupt.wait(interval)
-            except KeyboardInterrupt as e:
-                logger.warn("Polling canceled by user")
-                raise e
+            # wait for the interval unless interrupted, compensating for time elapsed in the loop
+            elapsed = time() - loop_start
+            self.polling_interrupt.wait(max(0.1, interval - elapsed))
 
         logger.warn("Term poll ceased!")
 

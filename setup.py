@@ -26,5 +26,6 @@ setup(
         "tweepy >= 2.2"
     ],
     test_suite="tests",
-    tests_require=["mock == 1.0.1"]
+    tests_require=["mock == 1.0.1"],
+    scripts=['scripts/stream_tweets'],
 )

@@ -36,6 +36,7 @@ class DynamicTwitterStream(object):
         """
         Start polling for term updates and streaming.
         """
+        interval = float(interval)
 
         self.polling = True
 
@@ -93,7 +94,7 @@ class DynamicTwitterStream(object):
                                         timeout=90,
                                         retry_count=self.retry_count)
 
-            logger.info("Starting new twitter stream with %s terms:", (len(tracking_terms)))
+            logger.info("Starting new twitter stream with %s terms:", len(tracking_terms))
             logger.info("  %s", repr(tracking_terms))
 
             # Launch it in a new thread

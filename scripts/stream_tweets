@@ -1,6 +1,6 @@
 #!/bin/env python
 """
-Uses twitter_monitor.simplestream to stream
+Uses twitter_monitor.basic_stream to stream
 filtered tweets to stdout.
 
 This script requires some configuration,

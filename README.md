@@ -16,6 +16,9 @@ You will want to do three things:
    to a file a database.
 3. Start an instance of the `DynamicTwitterStream` class, which ties it all together.
 
+There is also a `stream_tweets` script you can use to get started
+streaming tweets more quickly. More information is [below](#streaming-script).
+
 
 ####Installation
 
@@ -30,7 +33,8 @@ Example Usage
 -------------
 
 Below is a simple example of how to set up and initialize a dynamic Twitter stream.
-This example uses the `FileTermChecker` and default `JsonStreamListener` implementations:
+This example uses the `FileTermChecker` and default `JsonStreamListener` implementations.
+There is a working example in the `twitter_monitor/basic_stream.py` file.
 
 ```python
 import tweepy
@@ -109,6 +113,71 @@ on your listener object.
 More info about how listeners are used may be gleaned from the
 [Tweepy source code](https://github.com/tweepy/tweepy/blob/master/tweepy/streaming.py#L22).
 
+
+Streaming Script
+----------------
+
+This package includes a `stream_tweets` script that
+connects to Twitter using your API key, reads
+a list of filter terms from a file, and streams
+tweets to stdout.
+
+To use `stream_tweets`, you will need to create a file
+containing your filter terms, one per line.
+The script will look for `track.txt` in the current directory,
+but you can override this.
+You also need to provide your Twitter API key info.
+
+When you run `stream_tweets`, informational messages will be
+printed out to stderr, while tweets will be printed to stdout,
+one tweet per line, in JSON format.
+This makes it convenient to redirect the output into a file or another program:
+
+```bash
+$ stream_tweets > tweets.json
+```
+
+The required settings can be provided via environment variables,
+a `.ini` file, or command-line arguments.
+The command-line arguments take precedent:
+
+```bash
+$ stream_tweets --api-key XXXX --api-secret XXXX \
+                --access-token XXXX --access-token-secret XXXX \
+                --track-file my/track/file.txt \
+                --poll-interval 15
+```
+
+The `--poll-interval` option defines how often to check the track file
+for updated terms.
+
+Alternatively, one or more of the options may be defined in a `.ini` file.
+The script will search in the current directory for `twitter_monitor.ini`, but this can be overridden
+using the `--ini-file` argument.
+Below is an example `twitter_monitor.ini`:
+
+```ini
+[twitter]
+api_key=XXXX
+api_secret=XXXX
+access_token=XXXX
+access_token_secret=XXXX
+track_file=my/track/file.txt
+poll_interval=15
+```
+
+If options are not defined on the command line or in an ini file,
+environment variables are checked. Below are the names of the corresponding
+environment variables:
+
+```bash
+TWITTER_API_KEY=XXXX
+TWITTER_API_SECRET=XXXX
+TWITTER_ACCESS_TOKEN=XXXX
+TWITTER_ACCESS_TOKEN_SECRET=XXXX
+TWITTER_TRACK_FILE=my/track/file.txt
+TWITTER_POLL_INTERVAL=15
+```
 
 Questions and Contributing
 --------------------------

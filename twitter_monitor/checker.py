@@ -77,7 +77,8 @@ class FileTermChecker(TermChecker):
         Terms must be one-per-line.
         Blank lines will be skipped.
         """
-        with open(self.filename) as input:
+        import codecs
+        with codecs.open(self.filename,"r", encoding='utf8') as input:
             # read all the lines
             lines = input.readlines()
 

@@ -1,11 +1,13 @@
 from setuptools import setup
 
+VERSION="0.2.1"
+
 setup(
     name="twitter-monitor",
     packages=['twitter_monitor'],
 
-    version="0.2.1",
-    download_url='https://github.com/michaelbrooks/twitter-monitor/archive/v0.1.1.zip',
+    version=VERSION,
+    download_url='https://github.com/michaelbrooks/twitter-monitor/archive/v%s.zip' % VERSION,
     url="https://github.com/michaelbrooks/twitter-monitor",
 
     author="Michael Brooks",

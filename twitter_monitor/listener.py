@@ -22,6 +22,7 @@ class JsonStreamListener(StreamListener):
     def __init__(self, api=None):
         super(JsonStreamListener, self).__init__(api)
         self.streaming_exception = None
+        self.error = False
 
     def on_data(self, data):
         try:
@@ -109,6 +110,7 @@ class JsonStreamListener(StreamListener):
     def on_error(self, status_code):
         """Called when a non-200 status code is returned"""
         logger.error('Twitter returned error code %s', status_code)
+        self.error = status_code
         return False
 
     def on_unknown(self, entity):

@@ -118,11 +118,45 @@ class TestDynamicTwitterStream(TestCase):
         # Should have checked if terms changed
         self.checker.check.assert_called_once_with()
 
-        # Should NOT have stopped the old stream
+        # Should have stopped the old stream
         self.stream.stop_stream.assert_called_once_with()
 
-        # Should NOT have started a new stream
+        # Should have started a new stream
         self.stream.start_stream.assert_called_once_with()
+
+    def test_update_stream_after_error(self):
+
+        # Start the stream with a term
+        self.term_list.append("hello")
+        self.stream.start_stream()
+
+        self.stream.start_stream = mock.Mock()
+        self.stream.stop_stream = mock.Mock()
+
+        # No need to update anything since we've already started manually
+        self.checker.check.return_value = False
+        self.stream.update_stream()
+
+        # Should NOT have stopped the old stream
+        self.assertEqual(self.stream.stop_stream.call_count, 0)
+
+        # Should NOT have started a new stream
+        self.assertEqual(self.stream.start_stream.call_count, 0)
+
+        # Simulate a dead stream
+        self.tweepy_stream_instance.running = False
+        self.listener.error = 500
+
+        self.stream.update_stream()
+
+        # Should have stopped the old stream
+        self.stream.stop_stream.assert_called_once_with()
+
+        # Should have started a new stream
+        self.stream.start_stream.assert_called_once_with()
+
+        # Should have turned off the error
+        self.assertFalse(self.listener.error)
 
     def test_handle_exceptions(self):
 

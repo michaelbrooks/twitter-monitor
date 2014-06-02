@@ -72,8 +72,19 @@ class DynamicTwitterStream(object):
         Restarts the stream with the current list of tracking terms.
         """
 
+        need_to_restart = False
+
+        # If we think we are running, but something has gone wrong in the streaming thread
+        # Restart it.
+        if self.stream is not None and not self.stream.running and self.listener.error:
+            self.listener.error = False
+            need_to_restart = True
+
         # Check if the tracking list has changed
-        if not self.term_checker.check():
+        if self.term_checker.check():
+            need_to_restart = True
+
+        if not need_to_restart:
             return
 
         # Stop any old stream

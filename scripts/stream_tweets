@@ -15,6 +15,7 @@ The command line arguments:
     --access-token-scret XXXX
     --track-file <path-to-file>
     --poll-interval <number>
+    --unfiltered
 
 A sample ini file to be read by ConfigParser:
     [twitter]
@@ -24,6 +25,7 @@ A sample ini file to be read by ConfigParser:
     access_token_secret=XXXX
     track_file=<path-to-file>
     poll_interval=<number> (optional)
+    unfiltered=TRUE
 
 The environment variables:
     TWITTER_API_KEY=XXXX
@@ -32,6 +34,7 @@ The environment variables:
     TWITTER_ACCESS_TOKEN_SECRET=XXXX
     TWITTER_TRACK_FILE=<path-to-file>
     TWITTER_POLL_INTERVAL=<number>
+    TWITTER_UNFILTERED=TRUE
 
 The order below represents the order of priority as well.
 That is, a command-line argument overrides an ini-file setting,
@@ -182,6 +185,9 @@ def _read_args():
                       'TWITTER_ACCESS_TOKEN_SECRET',
                       help='your Twitter API access token secret',
                       required=True)
+    parser.add_option('unfiltered', '--unfiltered', 'unfiltered', 'TWITTER_UNFILTERED',
+                      help="allow unfiltered streaming", 
+                      required=False, default=False)
 
     return parser.read_vals()
 
@@ -189,9 +195,14 @@ def _read_args():
 if __name__ == '__main__':
     _configure_logger()
     args = _read_args()
+    print args
+    if args.unfiltered not in (False, 'FALSE', '0', 0):
+        args.unfiltered = True
+
     basic_stream.start(track_file=args.track_file,
                        twitter_api_key=args.api_key,
                        twitter_api_secret=args.api_secret,
                        twitter_access_token=args.access_token,
                        twitter_access_token_secret=args.access_token_secret,
-                       poll_interval=args.poll_interval)
+                       poll_interval=args.poll_interval,
+                       unfiltered=args.unfiltered)

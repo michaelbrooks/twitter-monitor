@@ -30,7 +30,7 @@ class DynamicTwitterStream(object):
         self.polling_interrupt = threading.Event()
 
         self.retry_count = options.get("retry_count", 5)
-
+        self.unfiltered = options.get('unfiltered', False)
 
     def start_polling(self, interval):
         """
@@ -84,6 +84,10 @@ class DynamicTwitterStream(object):
         if self.term_checker.check():
             need_to_restart = True
 
+        # If we aren't running and we are allowing unfiltered streams
+        if self.stream is None and self.unfiltered:
+            need_to_restart = True
+
         if not need_to_restart:
             return
 
@@ -98,19 +102,23 @@ class DynamicTwitterStream(object):
 
         tracking_terms = self.term_checker.tracking_terms()
 
-        if len(tracking_terms) > 0:
+        if len(tracking_terms) > 0 or self.unfiltered:
             # we have terms to track, so build a new stream
             self.stream = tweepy.Stream(self.auth, self.listener,
                                         stall_warnings=True,
                                         timeout=90,
                                         retry_count=self.retry_count)
 
-            logger.info("Starting new twitter stream with %s terms:", len(tracking_terms))
-            logger.info("  %s", repr(tracking_terms))
-
-            # Launch it in a new thread
-            self.stream.filter(track=tracking_terms, async=True)
-
+            if len(tracking_terms) > 0:
+                logger.info("Starting new twitter stream with %s terms:", len(tracking_terms))
+                logger.info("  %s", repr(tracking_terms))
+                
+                # Launch it in a new thread
+                self.stream.filter(track=tracking_terms, async=True)
+            else:
+                logger.info("Starting new unfiltered stream")
+                self.stream.sample(async=True)
+                
     def stop_stream(self):
         """
         Stops the current stream. Blocks until this is done.

@@ -62,9 +62,6 @@ class DynamicTwitterStream(object):
         logger.info("Stopping polling loop")
 
         self.polling = False
-        self.polling_interrupt.set()
-        self.polling_interrupt.clear()
-
         self.stop_stream()
 
     def update_stream(self):

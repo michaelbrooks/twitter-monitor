@@ -185,13 +185,18 @@ on your listener object.
 More info about how listeners are used may be gleaned from the
 [Tweepy source code](https://github.com/tweepy/tweepy/blob/master/tweepy/streaming.py#L22).
 
-
-
-
-
 Questions and Contributing
 --------------------------
 
 Feel free to post questions and problems on the issue tracker. Pull requests welcome!
 
 Use `python setup.py test` to run tests.
+
+
+### Creating a release
+
+1. Increment the version number in `setup.py`. Commit and push.
+2. Create a new Release in GitHub with the appropriate version tag.
+3. Run `setup.py sdist bdist` to build the distribution for PyPi.
+4. Run `twine upload -u USERNAME -p PASSWORD dist/*` to upload to PyPi. 
+   You must have [twine](https://github.com/pypa/twine) installed.

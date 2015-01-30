@@ -60,7 +60,8 @@ def start(track_file,
           twitter_api_secret,
           twitter_access_token,
           twitter_access_token_secret,
-          poll_interval=15):
+          poll_interval=15,
+          unfiltered=False):
 
     # Make a tweepy auth object
     auth = tweepy.OAuthHandler(twitter_api_key, twitter_api_secret)
@@ -70,7 +71,7 @@ def start(track_file,
     checker = BasicFileTermChecker(track_file, listener)
 
     # Make sure the terms file is ok
-    if not checker.update_tracking_terms():
+    if not unfiltered and not checker.update_tracking_terms():
         logger.error("No terms in track file %s", checker.filename)
         exit(1)
 
@@ -93,7 +94,7 @@ def start(track_file,
     signal.signal(signal.SIGTERM, stop)
 
     # Start and maintain the streaming connection...
-    stream = DynamicTwitterStream(auth, listener, checker)
+    stream = DynamicTwitterStream(auth, listener, checker, unfiltered=unfiltered)
     while True:
         try:
             stream.start_polling(poll_interval)

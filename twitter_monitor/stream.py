@@ -135,6 +135,11 @@ class DynamicTwitterStream(object):
     def handle_exceptions(self):
         # check to see if an exception was raised in the streaming thread
         if self.listener.streaming_exception is not None:
-            logger.warn("Streaming exception: %s", self.listener.streaming_exception)
+            
+            # Clear the exception
+            exc = self.listener.streaming_exception
+            self.listener.streaming_exception = None
+            
+            logger.warn("Streaming exception: %s", exc)
             # propagate outward
-            raise self.listener.streaming_exception
+            raise exc

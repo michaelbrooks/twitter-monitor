@@ -23,6 +23,14 @@ class ListChecker(TermChecker):
         return set(self._list)
 
 
+class TestDefaultTermChecker(unittest.TestCase):
+    """This mostly just exists to get 100% test coverage..."""
+
+    def test_default_implementation(self):
+        checker = TermChecker()
+        self.assertTrue(checker.check())
+
+
 class TestTermChecker(unittest.TestCase):
     def setUp(self):
         logger.manager.disable = logging.CRITICAL
@@ -32,7 +40,7 @@ class TestTermChecker(unittest.TestCase):
 
     def test_tracking_terms_start(self):
         self.assertEqual(self.checker.tracking_terms(), list(), "Checker starts with no terms")
-
+    
     def test_tracking_terms_add(self):
         # Put a term in the list
         self.term_list.append("my term")

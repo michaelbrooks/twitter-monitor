@@ -17,14 +17,19 @@ from stream import DynamicTwitterStream
 logger = logging.getLogger(__name__)
 
 class PrintingListener(JsonStreamListener):
-    def __init__(self, api=None):
+    def __init__(self, api=None, out=None):
         super(PrintingListener, self).__init__(api)
+        if out is None:
+            import sys
+            out = sys.stdout
+
+        self.out = out
         self.terminate = False
         self.received = 0
         self.since = time.time()
 
     def on_status(self, status):
-        print json.dumps(status)
+        self.out.write(json.dumps(status))
         self.received += 1
         return not self.terminate
 

@@ -195,7 +195,7 @@ def _read_args():
 if __name__ == '__main__':
     _configure_logger()
     args = _read_args()
-    print args
+    
     if args.unfiltered not in (False, 'FALSE', '0', 0):
         args.unfiltered = True
 

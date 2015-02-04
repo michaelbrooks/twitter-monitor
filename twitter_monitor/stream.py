@@ -1,4 +1,3 @@
-import threading
 from time import sleep, time
 import logging
 
@@ -26,9 +25,7 @@ class DynamicTwitterStream(object):
 
         self.polling = False
         self.stream = None
-
-        self.polling_interrupt = threading.Event()
-
+        
         self.retry_count = options.get("retry_count", 5)
         self.unfiltered = options.get('unfiltered', False)
 
@@ -53,7 +50,7 @@ class DynamicTwitterStream(object):
 
             # wait for the interval unless interrupted, compensating for time elapsed in the loop
             elapsed = time() - loop_start
-            self.polling_interrupt.wait(max(0.1, interval - elapsed))
+            sleep(max(0.1, interval - elapsed))
 
         logger.warn("Term poll ceased!")
 

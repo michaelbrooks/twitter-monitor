@@ -72,7 +72,25 @@ class TestDynamicTwitterStream(TestCase):
                                                       retry_count=self.retry_count)
 
         # It should be using the sample endpoint
-        self.tweepy_stream_instance.sample.assert_called_once_with(async=True)        
+        self.tweepy_stream_instance.sample.assert_called_once_with(async=True, languages=None)        
+
+    def test_start_with_languages(self):
+
+        # Create a stream with languages
+        languages = ['en', 'fr']
+        self.stream = DynamicTwitterStream(auth=self.auth,
+                                           listener=self.listener,
+                                           term_checker=self.checker,
+                                           retry_count=self.retry_count,
+                                           unfiltered=True,
+                                           languages=languages)
+        
+        # Start the stream without a term
+        self.stream.start_stream()
+
+        # It should be using the sample endpoint with languages
+        self.tweepy_stream_instance.sample.assert_called_once_with(async=True, languages=languages)
+
 
     def test_start_stream_with_terms(self):
 
@@ -89,7 +107,7 @@ class TestDynamicTwitterStream(TestCase):
                                                       timeout=90,
                                                       retry_count=self.retry_count)
         # Should start the filter with the terms
-        self.tweepy_stream_instance.filter.assert_called_once_with(track=self.term_list, async=True)
+        self.tweepy_stream_instance.filter.assert_called_once_with(track=self.term_list, async=True, languages=None)
 
 
     def test_stop_stream_not_started(self):

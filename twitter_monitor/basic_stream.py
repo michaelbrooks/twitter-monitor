@@ -60,13 +60,31 @@ class BasicFileTermChecker(FileTermChecker):
         return super(BasicFileTermChecker, self).update_tracking_terms()
 
 
+def debugger(sig, frame):
+    """
+    Interrupt running process, and provide a python prompt for
+    interactive debugging.
+    """
+    d={'_frame':frame}         # Allow access to frame object.
+    d.update(frame.f_globals)  # Unless shadowed by global
+    d.update(frame.f_locals)
+
+    import code, traceback
+    i = code.InteractiveConsole(d)
+    message  = "Signal received : entering python shell.\nTraceback:\n"
+    message += ''.join(traceback.format_stack(frame))
+    i.interact(message)
+
+
 def start(track_file,
           twitter_api_key,
           twitter_api_secret,
           twitter_access_token,
           twitter_access_token_secret,
           poll_interval=15,
-          unfiltered=False):
+          unfiltered=False,
+          languages=None,
+          debug=False):
 
     # Make a tweepy auth object
     auth = tweepy.OAuthHandler(twitter_api_key, twitter_api_secret)
@@ -97,9 +115,12 @@ def start(track_file,
     # gracefully.
     signal.signal(signal.SIGINT, stop)
     signal.signal(signal.SIGTERM, stop)
+    
+    if debug:
+        signal.signal(signal.SIGUSR1, debugger)
 
     # Start and maintain the streaming connection...
-    stream = DynamicTwitterStream(auth, listener, checker, unfiltered=unfiltered)
+    stream = DynamicTwitterStream(auth, listener, checker, unfiltered=unfiltered, languages=languages)
     while True:
         try:
             stream.start_polling(poll_interval)

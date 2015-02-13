@@ -28,6 +28,7 @@ class DynamicTwitterStream(object):
         
         self.retry_count = options.get("retry_count", 5)
         self.unfiltered = options.get('unfiltered', False)
+        self.languages = options.get('languages', None)
 
     def start_polling(self, interval):
         """
@@ -113,10 +114,10 @@ class DynamicTwitterStream(object):
                 logger.info("  %s", repr(tracking_terms))
                 
                 # Launch it in a new thread
-                self.stream.filter(track=tracking_terms, async=True)
+                self.stream.filter(track=tracking_terms, async=True, languages=self.languages)
             else:
                 logger.info("Starting new unfiltered stream")
-                self.stream.sample(async=True)
+                self.stream.sample(async=True, languages=self.languages)
                 
     def stop_stream(self):
         """

@@ -1,6 +1,6 @@
 from setuptools import setup
 
-VERSION="0.2.6"
+VERSION="0.2.7"
 
 setup(
     name="twitter-monitor",

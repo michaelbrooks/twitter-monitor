@@ -4,16 +4,16 @@ import mock
 from twitter_monitor.basic_stream import PrintingListener
 
 from StringIO import StringIO
-import sys
+import sys, os
 import json
 import time
 
 logger = logging.getLogger("twitter_monitor")
 
-class TestPrintingListener(TestCase):
 
+class TestPrintingListener(TestCase):
     def setUp(self):
-        logger.manager.disable = logging.CRITICAL        
+        logger.manager.disable = logging.CRITICAL
         self.out = StringIO()
         self.example_status = {"key": "value"}
         self.listener = PrintingListener(out=self.out)
@@ -26,11 +26,27 @@ class TestPrintingListener(TestCase):
         self.assertEquals(self.listener.out, self.out)
 
     def test_prints_on_status(self):
+        """Tweet json should be printed"""
 
         self.listener.on_status(self.example_status)
 
         output = self.out.getvalue().strip()
         self.assertEquals(output, json.dumps(self.example_status))
+
+    def test_prints_newlines_between_tweets(self):
+        """There must be newlines between tweets"""
+
+        num_tweets = 4
+        tweet_json_text = json.dumps(self.example_status)
+        expected_output = ""
+
+        for i in range(num_tweets):
+            self.listener.on_status(self.example_status)
+            expected_output += tweet_json_text + os.linesep
+
+        expected_output = expected_output.strip()
+        output = self.out.getvalue().strip()
+        self.assertEquals(output, expected_output)
 
     def test_counts_received_tweets(self):
         self.assertEquals(self.listener.received, 0)
@@ -54,7 +70,6 @@ class TestPrintingListener(TestCase):
 
     @mock.patch('twitter_monitor.basic_stream.logger')
     def test_logs_statistics(self, logger):
-        
         # Wait briefly post-creation
         time.sleep(0.1)
 

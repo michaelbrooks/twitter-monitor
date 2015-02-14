@@ -4,6 +4,7 @@ minimal configuration as arguments and starts
 a stream to stdout.
 """
 
+import os
 import signal
 import logging
 import time
@@ -30,6 +31,8 @@ class PrintingListener(JsonStreamListener):
 
     def on_status(self, status):
         self.out.write(json.dumps(status))
+        self.out.write(os.linesep)
+
         self.received += 1
         return not self.terminate
 

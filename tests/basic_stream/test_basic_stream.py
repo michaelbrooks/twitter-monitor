@@ -84,14 +84,14 @@ class TestBasicStreamSignals(TestCase):
 
         signals = [args[0] for args, kwargs in signal.signal.call_args_list]
 
-        self.assertSetEqual(set(signals), set([signal.SIGTERM, signal.SIGINT]))
+        self.assertTrue(signal.SIGTERM in signals)
+        self.assertTrue(signal.SIGINT in signals)
 
     def test_terminate(self):
         """Should stop the listener and raise a SystemExit"""
 
         listener = mock.Mock()
-        with self.assertRaises(SystemExit):
-            basic_stream.terminate(listener)
+        self.assertRaises(SystemExit, basic_stream.terminate, listener)
         self.assertTrue(listener.set_terminate.called)
 
 
@@ -124,7 +124,8 @@ class TestBasicStream(TestCase):
                                               twitter_api_secret,
                                               twitter_access_token,
                                               twitter_access_token_secret)
-        self.assertIsInstance(result, tweepy.OAuthHandler)
+
+        self.assertTrue(isinstance(result, tweepy.OAuthHandler))
 
         self.assertEquals(result.consumer_key, twitter_api_key)
         self.assertEquals(result.consumer_secret, twitter_api_secret)

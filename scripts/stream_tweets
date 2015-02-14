@@ -134,6 +134,10 @@ class ArgParser(object):
         self.parser.add_argument('outfile', help='output file, else stdout', default=None, nargs='?')
 
         args = self.parser.parse_args()
+
+        if not hasattr(args, 'output'):
+            setattr(args, 'output', None)
+
         if os.path.isfile(args.ini_file):
             self.config.readfp(_get_ini_file(args.ini_file))
 

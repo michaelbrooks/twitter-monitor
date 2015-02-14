@@ -25,7 +25,7 @@ setup(
     ],
 
     install_requires=[
-        "tweepy >= 2.2"
+        "tweepy >= 3.0"
     ],
     test_suite="tests",
     tests_require=["mock == 1.0.1"],

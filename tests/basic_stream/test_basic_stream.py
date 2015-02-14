@@ -126,10 +126,10 @@ class TestBasicStream(TestCase):
                                               twitter_access_token_secret)
         self.assertIsInstance(result, tweepy.OAuthHandler)
 
-        self.assertEquals(result._consumer.key, twitter_api_key)
-        self.assertEquals(result._consumer.secret, twitter_api_secret)
-        self.assertEquals(result.access_token.key, twitter_access_token)
-        self.assertEquals(result.access_token.secret, twitter_access_token_secret)
+        self.assertEquals(result.consumer_key, twitter_api_key)
+        self.assertEquals(result.consumer_secret, twitter_api_secret)
+        self.assertEquals(result.access_token, twitter_access_token)
+        self.assertEquals(result.access_token_secret, twitter_access_token_secret)
 
 
     @mock.patch('twitter_monitor.basic_stream.should_continue')

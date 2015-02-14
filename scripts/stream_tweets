@@ -135,9 +135,6 @@ class ArgParser(object):
 
         args = self.parser.parse_args()
 
-        if not hasattr(args, 'output'):
-            setattr(args, 'output', None)
-
         if os.path.isfile(args.ini_file):
             self.config.readfp(_get_ini_file(args.ini_file))
 
@@ -171,6 +168,8 @@ class ArgParser(object):
                             value = default
 
             values[dest] = value
+
+        values['outfile'] = args.outfile
 
         return argparse.Namespace(**values)
 

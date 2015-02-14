@@ -18,6 +18,7 @@ The command line arguments:
     --unfiltered TRUE
     --debug TRUE
     --languages en,fr
+    <filename>
 
 A sample ini file to be read by ConfigParser:
     [twitter]
@@ -130,6 +131,7 @@ class ArgParser(object):
     def read_vals(self):
         default_ini = os.path.abspath('twitter_monitor.ini')
         self.parser.add_argument('--ini-file', dest='ini_file', help='path to .ini file', default=default_ini)
+        self.parser.add_argument('outfile', help='output file, else stdout', default=None, nargs='?')
 
         args = self.parser.parse_args()
         if os.path.isfile(args.ini_file):
@@ -226,4 +228,5 @@ if __name__ == '__main__':
                        poll_interval=args.poll_interval,
                        unfiltered=args.unfiltered,
                        debug=args.debug,
-                       languages=args.languages)
+                       languages=args.languages,
+                       outfile=args.outfile)

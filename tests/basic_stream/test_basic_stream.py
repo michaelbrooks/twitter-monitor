@@ -115,6 +115,26 @@ class TestBasicStream(TestCase):
         PrintingListener.assert_called_once_with(out=mock_open.return_value)
         self.assertEquals(result, PrintingListener.return_value)
 
+    @mock.patch('os.path.exists')
+    @mock.patch('twitter_monitor.basic_stream.PrintingListener')
+    def test_construct_listener_with_existing_file(self, PrintingListener, os_path_exists):
+        PrintingListener.return_value = 53234
+
+        outfile = "some_file.txt"
+
+        mock_open = mock.mock_open()
+        mock_open.return_value = 348374387
+
+        os_path_exists.return_value = True
+
+        with mock.patch('twitter_monitor.basic_stream.open', mock_open, create=True):
+            # An error should be raised
+            self.assertRaises(IOError, basic_stream.construct_listener, outfile)
+
+        # The file should not have been opened
+        self.assertEquals(mock_open.call_count, 0)
+
+
     def test_get_tweepy_auth(self):
         twitter_api_key = 'ak'
         twitter_api_secret = 'as'

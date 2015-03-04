@@ -128,8 +128,8 @@ auth = tweepy.OAuthHandler(api_key, api_secret)
 auth.set_access_token(access_token, access_token_secret)
 
 # Construct your own subclasses here instead
-listener = twitter_monitor.JsonStreamListener()
-checker = twitter_monitor.FileTermChecker(filename=terms_filename)
+listener = twitter_monitor.listener.JsonStreamListener()
+checker = twitter_monitor.checker.FileTermChecker(filename=terms_filename)
 
 # Start and maintain the streaming connection...
 stream = twitter_monitor.DynamicTwitterStream(auth, listener, checker)
@@ -137,7 +137,7 @@ while True:
     try:
         # Loop and keep reconnecting in case something goes wrong
         # Note: You may annoy Twitter if you reconnect too often under some conditions.
-        stream.start(poll_interval)
+        stream.start_polling(poll_interval)
     except Exception as e:
         print e
         time.sleep(1)  # to avoid craziness with Twitter
@@ -198,5 +198,5 @@ Use `python setup.py test` to run tests.
 1. Increment the version number in `setup.py`. Commit and push.
 2. Create a new Release in GitHub with the appropriate version tag.
 3. Run `setup.py sdist bdist` to build the distribution for PyPi.
-4. Run `twine upload -u USERNAME -p PASSWORD dist/*` to upload to PyPi. 
+4. Run `twine upload -u USERNAME -p PASSWORD dist/*` to upload to PyPi.
    You must have [twine](https://github.com/pypa/twine) installed.

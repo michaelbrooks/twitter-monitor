@@ -104,7 +104,7 @@ class JsonStreamListener(StreamListener):
         return True
 
     def on_stall_warning(self, code, message, percent_full):
-        logger.warn("Stall warning (%s): %s (%s%% full)", code, message, percent_full)
+        logger.warning("Stall warning (%s): %s (%s%% full)", code, message, percent_full)
         return True
 
     def on_error(self, status_code):

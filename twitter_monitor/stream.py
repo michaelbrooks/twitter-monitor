@@ -53,7 +53,7 @@ class DynamicTwitterStream(object):
             elapsed = time() - loop_start
             sleep(max(0.1, interval - elapsed))
 
-        logger.warn("Term poll ceased!")
+        logger.warning("Term poll ceased!")
 
     def stop_polling(self):
         """Halts the polling loop and streaming"""
@@ -72,7 +72,7 @@ class DynamicTwitterStream(object):
         # If we think we are running, but something has gone wrong in the streaming thread
         # Restart it.
         if self.stream is not None and not self.stream.running:
-            logger.warn("Stream exists but isn't running")
+            logger.warning("Stream exists but isn't running")
             self.listener.error = False
             self.listener.streaming_exception = None
             need_to_restart = True
@@ -127,7 +127,7 @@ class DynamicTwitterStream(object):
         if self.stream is not None:
             # There is a streaming thread
 
-            logger.warn("Stopping twitter stream...")
+            logger.warning("Stopping twitter stream...")
             self.stream.disconnect()
 
             self.stream = None
@@ -143,6 +143,6 @@ class DynamicTwitterStream(object):
             exc = self.listener.streaming_exception
             self.listener.streaming_exception = None
             
-            logger.warn("Streaming exception: %s", exc)
+            logger.warning("Streaming exception: %s", exc)
             # propagate outward
             raise exc

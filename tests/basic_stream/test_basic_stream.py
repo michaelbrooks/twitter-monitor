@@ -136,8 +136,8 @@ class TestBasicStream(TestCase):
 
 
     def test_get_tweepy_auth(self):
-        twitter_api_key = 'ak'
-        twitter_api_secret = 'as'
+        twitter_api_key = b'ak'
+        twitter_api_secret = b'as'
         twitter_access_token = 'at'
         twitter_access_token_secret = 'ats'
         result = basic_stream.get_tweepy_auth(twitter_api_key,
@@ -163,7 +163,7 @@ class TestBasicStream(TestCase):
         desired_loop_count = 3
 
         def check():
-            print("Loop # %d" % should_continue.call_count)
+            print("Loop # {}", should_continue.call_count)
             if should_continue.call_count >= desired_loop_count:
                 return False
 

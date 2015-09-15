@@ -3,7 +3,7 @@ import logging
 import mock
 from twitter_monitor.basic_stream import PrintingListener
 
-from StringIO import StringIO
+from io import StringIO
 import sys, os
 import json
 import time

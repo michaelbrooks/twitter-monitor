@@ -163,7 +163,7 @@ class TestBasicStream(TestCase):
         desired_loop_count = 3
 
         def check():
-            print "Loop # %d" % should_continue.call_count
+            print("Loop # %d" % should_continue.call_count)
             if should_continue.call_count >= desired_loop_count:
                 return False
 

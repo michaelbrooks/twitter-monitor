@@ -19,8 +19,7 @@ class TestJsonStreamListener(TestCase):
             raise Exception("testing")
         except Exception as exception:
             self.listener.on_exception(exception)
-
-        self.assertEqual(self.listener.streaming_exception, exception, "Saves exception")
+            self.assertEqual(self.listener.streaming_exception, exception, "Saves exception")
 
     def test_on_error(self):
         self.assertFalse(self.listener.on_error(404))

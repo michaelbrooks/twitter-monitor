@@ -11,9 +11,9 @@ import time
 import json
 
 import tweepy
-from listener import JsonStreamListener
-from checker import FileTermChecker
-from stream import DynamicTwitterStream
+from .listener import JsonStreamListener
+from .checker import FileTermChecker
+from .stream import DynamicTwitterStream
 
 logger = logging.getLogger(__name__)
 

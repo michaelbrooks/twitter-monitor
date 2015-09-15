@@ -233,7 +233,7 @@ class TestDynamicTwitterStream(TestCase):
         except:
             pass
 
-        self.assertEquals(self.listener.streaming_exception, None)
+        self.assertEqual(self.listener.streaming_exception, None)
 
 
     def test_stop_polling(self):
@@ -249,7 +249,7 @@ class TestDynamicTwitterStream(TestCase):
         waits = 0
         # Wait for a maximum of 3 seconds (ish), or until the loop has run at least once
         while self.stream.update_stream.call_count < 2 and waits < 12:
-            print "Waiting..."
+            print("Waiting...")
             time.sleep(0.25)
             waits += 1
 

@@ -3,7 +3,11 @@ import logging
 import mock
 from twitter_monitor.basic_stream import PrintingListener
 
-from StringIO import StringIO
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
+
 import sys, os
 import json
 import time
@@ -20,10 +24,10 @@ class TestPrintingListener(TestCase):
 
     def test_defaults_to_stdout(self):
         listener = PrintingListener()
-        self.assertEquals(listener.out, sys.stdout)
+        self.assertEqual(listener.out, sys.stdout)
 
     def test_output_is_configurable(self):
-        self.assertEquals(self.listener.out, self.out)
+        self.assertEqual(self.listener.out, self.out)
 
     def test_prints_on_status(self):
         """Tweet json should be printed"""
@@ -31,7 +35,7 @@ class TestPrintingListener(TestCase):
         self.listener.on_status(self.example_status)
 
         output = self.out.getvalue().strip()
-        self.assertEquals(output, json.dumps(self.example_status))
+        self.assertEqual(output, json.dumps(self.example_status))
 
     def test_prints_newlines_between_tweets(self):
         """There must be newlines between tweets"""
@@ -46,16 +50,16 @@ class TestPrintingListener(TestCase):
 
         expected_output = expected_output.strip()
         output = self.out.getvalue().strip()
-        self.assertEquals(output, expected_output)
+        self.assertEqual(output, expected_output)
 
     def test_counts_received_tweets(self):
-        self.assertEquals(self.listener.received, 0)
+        self.assertEqual(self.listener.received, 0)
 
         self.listener.on_status(self.example_status)
-        self.assertEquals(self.listener.received, 1)
+        self.assertEqual(self.listener.received, 1)
 
         self.listener.on_status(self.example_status)
-        self.assertEquals(self.listener.received, 2)
+        self.assertEqual(self.listener.received, 2)
 
     def test_allows_termination(self):
         # It should start out saying to continue
@@ -79,5 +83,5 @@ class TestPrintingListener(TestCase):
     def test_resets_received_after_stats(self):
         self.listener.received = 1
         self.listener.print_status()
-        self.assertEquals(self.listener.received, 0)
+        self.assertEqual(self.listener.received, 0)
 

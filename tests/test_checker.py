@@ -100,12 +100,12 @@ class TestFileTermChecker(unittest.TestCase):
         self.assertEqual(terms, set(), "Returns empty set if file is empty")
 
         with open(self.file.name, mode='w+b') as tfile:
-            tfile.write("one\n")
-            tfile.write("two three\n")
-            tfile.write("two three\n")
-            tfile.write("  four  \n")
-            tfile.write("\n")
-            tfile.write("\tfive; six\'\t\n")
+            tfile.write(b"one\n")
+            tfile.write(b"two three\n")
+            tfile.write(b"two three\n")
+            tfile.write(b"  four  \n")
+            tfile.write(b"\n")
+            tfile.write(b"\tfive; six\'\t\n")
 
         terms = self.checker.update_tracking_terms()
         self.assertEqual(terms,

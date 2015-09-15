@@ -17,7 +17,7 @@ class TestJsonStreamListener(TestCase):
 
         try:
             raise Exception("testing")
-        except Exception, exception:
+        except Exception as exception:
             self.listener.on_exception(exception)
 
         self.assertEquals(self.listener.streaming_exception, exception, "Saves exception")

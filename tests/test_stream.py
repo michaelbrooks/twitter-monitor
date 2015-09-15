@@ -233,7 +233,7 @@ class TestDynamicTwitterStream(TestCase):
         except:
             pass
 
-        self.assertEquals(self.listener.streaming_exception, None)
+        self.assertEqual(self.listener.streaming_exception, None)
 
 
     def test_stop_polling(self):

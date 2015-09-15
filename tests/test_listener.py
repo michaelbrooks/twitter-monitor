@@ -20,7 +20,7 @@ class TestJsonStreamListener(TestCase):
         except Exception as exception:
             self.listener.on_exception(exception)
 
-        self.assertEquals(self.listener.streaming_exception, exception, "Saves exception")
+        self.assertEqual(self.listener.streaming_exception, exception, "Saves exception")
 
     def test_on_error(self):
         self.assertFalse(self.listener.on_error(404))
@@ -56,7 +56,7 @@ class TestStreamListenerHandling(TestCase):
 
         # Should have called NONE of the patched handler methods
         for patch in self.patched_methods:
-            self.assertEquals(getattr(self.listener, patch).call_count, 0, "Does not call %s" % patch)
+            self.assertEqual(getattr(self.listener, patch).call_count, 0, "Does not call %s" % patch)
 
     def test_on_data_list_json(self):
         """Nothing gets called when the data represents a list."""
@@ -66,7 +66,7 @@ class TestStreamListenerHandling(TestCase):
 
         # Should have called NONE of the patched handler methods
         for patch in self.patched_methods:
-            self.assertEquals(getattr(self.listener, patch).call_count, 0, "Does not call %s" % patch)
+            self.assertEqual(getattr(self.listener, patch).call_count, 0, "Does not call %s" % patch)
 
     def test_on_data_string_json(self):
         """Nothing gets called when the data represents a string."""
@@ -76,7 +76,7 @@ class TestStreamListenerHandling(TestCase):
 
         # Should have called NONE of the patched handler methods
         for patch in self.patched_methods:
-            self.assertEquals(getattr(self.listener, patch).call_count, 0, "Does not call %s" % patch)
+            self.assertEqual(getattr(self.listener, patch).call_count, 0, "Does not call %s" % patch)
 
     def test_on_data_delete(self):
         """Delete message"""

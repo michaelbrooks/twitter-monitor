@@ -26,11 +26,11 @@ class TestBasicStreamSignals(TestCase):
 
         basic_stream.set_debug_listener(stream)
 
-        self.assertEquals(signal.signal.call_count, 1)
+        self.assertEqual(signal.signal.call_count, 1)
 
         args, kwargs = signal.signal.call_args
-        self.assertEquals(len(args), 2)
-        self.assertEquals(args[0], signal.SIGUSR1)
+        self.assertEqual(len(args), 2)
+        self.assertEqual(args[0], signal.SIGUSR1)
         self.assertTrue(hasattr(args[1], '__call__'))  # 2nd arg should be a callback
 
     @mock.patch('twitter_monitor.basic_stream.signal', new_callable=FakeSignal)
@@ -66,9 +66,9 @@ class TestBasicStreamSignals(TestCase):
 
         basic_stream.launch_debugger(frame, stream=stream)
 
-        self.assertEquals(InteractiveConsole.call_count, 1)
+        self.assertEqual(InteractiveConsole.call_count, 1)
         format_stack.assert_called_once_with(frame)
-        self.assertEquals(interactive_obj.interact.call_count, 1)
+        self.assertEqual(interactive_obj.interact.call_count, 1)
 
     @mock.patch('twitter_monitor.basic_stream.signal')
     def test_set_terminate_listeners(self, signal):
@@ -80,7 +80,7 @@ class TestBasicStreamSignals(TestCase):
         stream = mock.Mock()
         basic_stream.set_terminate_listeners(stream)
 
-        self.assertEquals(signal.signal.call_count, 2)
+        self.assertEqual(signal.signal.call_count, 2)
 
         signals = [args[0] for args, kwargs in signal.signal.call_args_list]
 
@@ -113,7 +113,7 @@ class TestBasicStream(TestCase):
         mock_open.assert_called_once_with(outfile, 'wb')
 
         PrintingListener.assert_called_once_with(out=mock_open.return_value)
-        self.assertEquals(result, PrintingListener.return_value)
+        self.assertEqual(result, PrintingListener.return_value)
 
     @mock.patch('os.path.exists')
     @mock.patch('twitter_monitor.basic_stream.PrintingListener')
@@ -132,7 +132,7 @@ class TestBasicStream(TestCase):
             self.assertRaises(IOError, basic_stream.construct_listener, outfile)
 
         # The file should not have been opened
-        self.assertEquals(mock_open.call_count, 0)
+        self.assertEqual(mock_open.call_count, 0)
 
 
     def test_get_tweepy_auth(self):
@@ -147,10 +147,10 @@ class TestBasicStream(TestCase):
 
         self.assertTrue(isinstance(result, tweepy.OAuthHandler))
 
-        self.assertEquals(result.consumer_key, twitter_api_key)
-        self.assertEquals(result.consumer_secret, twitter_api_secret)
-        self.assertEquals(result.access_token, twitter_access_token)
-        self.assertEquals(result.access_token_secret, twitter_access_token_secret)
+        self.assertEqual(result.consumer_key, twitter_api_key)
+        self.assertEqual(result.consumer_secret, twitter_api_secret)
+        self.assertEqual(result.access_token, twitter_access_token)
+        self.assertEqual(result.access_token_secret, twitter_access_token_secret)
 
 
     @mock.patch('twitter_monitor.basic_stream.should_continue')
@@ -175,7 +175,7 @@ class TestBasicStream(TestCase):
         stream = mock.Mock()
 
         def polling_fn(pi):
-            self.assertEquals(pi, poll_interval)
+            self.assertEqual(pi, poll_interval)
             if should_continue.call_count == 2:
                 raise Exception("Testing!")
 
@@ -183,7 +183,7 @@ class TestBasicStream(TestCase):
 
         basic_stream.begin_stream_loop(stream, poll_interval)
 
-        self.assertEquals(should_continue.call_count, desired_loop_count)
-        self.assertEquals(stream.start_polling.call_count, desired_loop_count - 1)
-        self.assertEquals(loggerMock.error.call_count, 1)
+        self.assertEqual(should_continue.call_count, desired_loop_count)
+        self.assertEqual(stream.start_polling.call_count, desired_loop_count - 1)
+        self.assertEqual(loggerMock.error.call_count, 1)
         time.sleep.assert_called_once_with(1)

@@ -20,7 +20,7 @@ There is also a `stream_tweets` script you can use to get started
 streaming tweets more quickly. More information is [below](#streaming-script).
 
 
-####Installation
+#### Installation
 
 This package is available on PyPI [here](https://pypi.python.org/pypi/twitter-monitor).
 

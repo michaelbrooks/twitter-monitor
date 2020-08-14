@@ -29,7 +29,7 @@ setup(
     ],
 
     install_requires=[
-        "tweepy >= 3.0"
+        "tweepy >= 3.7"
     ],
     test_suite="tests",
     tests_require=["mock == 1.0.1"],
